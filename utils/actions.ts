@@ -1,6 +1,6 @@
 import db from "@/utils/db";
 
-export const featchFeaturedProducts = async () => {
+export const fetchFeaturedProducts = async () => {
   const products = await db.product.findMany({
     where: {
       featured: true,
