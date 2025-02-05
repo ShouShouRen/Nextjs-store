@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: "4mb", // 設置新的限制，例如 4MB
+      bodySizeLimit: "10mb",
     },
   },
 };
