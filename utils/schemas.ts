@@ -33,7 +33,7 @@ export function validateWithZodSchema<T>(
 
   if (!result.success) {
     const errors = result.error.errors.map((error) => error.message);
-    throw new Error(errors.join(" , "));
+    throw new Error(errors.join(","));
   }
   return result.data;
 }
