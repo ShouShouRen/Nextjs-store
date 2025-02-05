@@ -6,6 +6,7 @@ import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
 import FavoriteToggleButton from "@/components/product/FavoriteToggleButton";
 async function SingleProductPage({ params }: { params: { id: string } }) {
+  // @ts-ignore
   const { id } = await params;
   const product = await fetchSingleProduct(id);
   const { name, image, company, description, price } = product;
