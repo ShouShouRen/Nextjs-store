@@ -3,6 +3,7 @@ import db from "@/utils/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { imageSchema, productSchema, validateWithZodSchema } from "./schemas";
+import { uploadImage } from "./supabase";
 
 const getAuthUser = async () => {
   const user = await currentUser();
@@ -71,12 +72,12 @@ export const createProductAction = async (
 
     const validateFile = validateWithZodSchema(imageSchema, { image: file });
 
-    console.log(validateFile);
+    const fullPath = await uploadImage(validateFile.image);
 
     await db.product.create({
       data: {
         ...validatedFields,
-        image: "/images/product-3.jpg",
+        image: fullPath,
         clerkId: user.id,
       },
     });
@@ -88,4 +89,5 @@ export const createProductAction = async (
       message: renderError(error).message,
     };
   }
+  redirect("/admin/products");
 };
