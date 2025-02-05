@@ -1,9 +1,9 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Input } from "../ui/input";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import { Input } from "../ui/input";
 
 function NavSearch() {
   const searchParams = useSearchParams();
@@ -21,11 +21,18 @@ function NavSearch() {
     replace(`/products?${params}`);
   }, 500);
 
+  // useEffect(() => {
+  //   if (!searchParams.get("search")) {
+  //     setSearch("");
+  //   }
+  // }, [searchParams.get("search")]);
+  const searchQuery = useMemo(() => searchParams.get("search"), [searchParams]);
+
   useEffect(() => {
-    if (!searchParams.get("search")) {
+    if (!searchQuery) {
       setSearch("");
     }
-  }, [searchParams.get("search")]);
+  }, [searchQuery]);
 
   return (
     <Input

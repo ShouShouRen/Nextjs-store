@@ -1,6 +1,5 @@
-import { LuUser } from "react-icons/lu";
 import { currentUser } from "@clerk/nextjs/server";
-import Image from "next/image";
+import { LuUser } from "react-icons/lu";
 
 async function UserIcon() {
   const user = await currentUser();
@@ -9,7 +8,8 @@ async function UserIcon() {
 
   if (profileImage) {
     return (
-      <Image
+      // eslint-disable-next-line next/next/no-img-element
+      <img
         src={profileImage}
         alt="User Profile"
         className="w-6 h-6 rounded-full object-cover"
