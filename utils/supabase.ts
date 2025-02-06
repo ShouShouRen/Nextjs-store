@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-
 const bucket = "main-bucket";
 
 export const supabase = createClient(
@@ -15,4 +14,10 @@ export const uploadImage = async (image: File) => {
     .upload(newName, image, { cacheControl: "3600" });
   if (!data) throw new Error("Image upload failed");
   return supabase.storage.from(bucket).getPublicUrl(newName).data.publicUrl;
+};
+
+export const deleteImage = async (url: string) => {
+  const imageName = url.split("/").pop();
+  if (!imageName) throw new Error("Invalid URL!!!");
+  return supabase.storage.from(bucket).remove([imageName]);
 };
