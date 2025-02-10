@@ -245,3 +245,19 @@ export const fetchUserFavorites = async () => {
   });
   return favorites;
 };
+
+export const createReviewAction = async (
+  prevState: any,
+  formData: FormData
+) => {
+  const user = await getAuthUser();
+  return {
+    message: "review submit successfully",
+  };
+};
+
+export const fetchProductReviews = async () => {};
+export const fetchProductReviewsByUser = async () => {};
+export const deleteReviewAction = async () => {};
+export const findExistingReview = async () => {};
+export const fetchProductRating = async () => {};
