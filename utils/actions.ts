@@ -239,7 +239,6 @@ export const toggleFavoriteAction = async (prevState: {
 
 export const fetchUserFavorites = async () => {
   const user = await getAuthUser();
-  console.log(user, "user");
   const favorites = await db.favorite.findMany({
     where: {
       clerkId: user.id,
@@ -259,8 +258,6 @@ export const createReviewAction = async (
   try {
     const rawData = Object.fromEntries(formData);
     const validatedFields = validateWithZodSchema(reviewSchema, rawData);
-    console.log(rawData, "rawData");
-    console.log(validatedFields, "validatedFields");
 
     await db.review.create({
       data: {
