@@ -436,6 +436,9 @@ export const updateCart = async (cart: Cart) => {
     include: {
       product: true,
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
   let numItemsInCart = 0;
   let cartTotal = 0;
@@ -459,7 +462,7 @@ export const updateCart = async (cart: Cart) => {
     },
     include: includeProductClause,
   });
-  return currentCart;
+  return { currentCart, cartItems };
 };
 
 export const fetchProduct = async (productId: string) => {
@@ -489,8 +492,63 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
   redirect("/cart");
 };
 
-export const removeCartItemAction = async () => {};
+export const removeCartItemAction = async (
+  prevState: any,
+  formData: FormData
+) => {
+  const user = await getAuthUser();
+  try {
+    const cartItemId = formData.get("id") as string;
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+    await db.cartItem.delete({
+      where: {
+        id: cartItemId,
+        cartId: cart.id,
+      },
+    });
+    await updateCart(cart);
+    revalidatePath("/cart");
+  } catch (error) {
+    return renderError(error);
+  }
+  return {
+    message: "Item removed from cart",
+  };
+};
 
-export const updateCartItemAction = async () => {};
+export const updateCartItemAction = async ({
+  amount,
+  cartItemId,
+}: {
+  amount: number;
+  cartItemId: string;
+}) => {
+  const user = await getAuthUser();
+  try {
+    const cart = await fetchOrCreateCart({
+      userId: user.id,
+      errorOnFailure: true,
+    });
+    await db.cartItem.update({
+      where: {
+        id: cartItemId,
+        cartId: cart.id,
+      },
+      data: {
+        amount,
+      },
+    });
+    await updateCart(cart);
+    revalidatePath("/cart");
+    return { message: "Cart updated" };
+  } catch (error) {
+    return renderError(error);
+  }
+};
 
-export const createOrderAction = (prevState: any, formData: FormData) => {};
+export const createOrderAction = async (prevState: any, formData: FormData) => {
+  return { message: "Order created" };
+};
