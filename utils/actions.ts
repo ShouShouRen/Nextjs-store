@@ -492,3 +492,5 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
 export const removeCartItemAction = async () => {};
 
 export const updateCartItemAction = async () => {};
+
+export const createOrderAction = (prevState: any, formData: FormData) => {};
