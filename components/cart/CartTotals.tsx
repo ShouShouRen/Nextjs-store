@@ -2,6 +2,9 @@ import { formatCurrency } from "@/utils/format";
 import { Cart } from "@prisma/client";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Card, CardTitle } from "../ui/card";
+import { createOrderAction } from "@/utils/actions";
+import { SubmitButton } from "../form/Buttons";
+import FormContainer from "../form/FormContainer";
 
 function CartTotals({ cart }: { cart: Cart }) {
   const { cartTotal, shipping, tax, orderTotal } = cart;
@@ -15,6 +18,9 @@ function CartTotals({ cart }: { cart: Cart }) {
           <CartTotalRow label="Order Total" amount={orderTotal} lastRow />
         </CardTitle>
       </Card>
+      <FormContainer action={createOrderAction}>
+        <SubmitButton text="Place Order" className="w-full mt-8" />
+      </FormContainer>
     </div>
   );
 }
